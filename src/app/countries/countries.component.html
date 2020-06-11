@@ -1,0 +1,53 @@
+<div class="card">
+  <div class="card-title">
+    <h2>Global Covid-19 Cases</h2>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Search Country</h5>
+    <form class="example-form">
+      <mat-form-field
+        class="example-full-width"
+        style="width: 110% !important;"
+      >
+        <input
+          type="text"
+          autocomplete="on"
+          placeholder="Country"
+          aria-label="Number"
+          matInput
+          [(ngModel)]="countryName"
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option.Country"
+          >
+            <img
+              src="https://www.countryflags.io/{{ option.ISO2 }}/shiny/32.png"
+            />{{ " " + option.Country }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="card" id="casesCard" *ngIf="filteredCountryConfirmedCases; else">
+    <div class="card-title">
+      <h3>
+        <img
+          src="https://www.countryflags.io/{{
+            filteredCountry.ISO2
+          }}/shiny/32.png"
+        />{{ " " + filteredCountry.Country }}
+      </h3>
+    </div>
+    <div class="body">
+      <h4>Confirmed Cases: {{ filteredCountryConfirmedCases.Confirmed }}</h4>
+      <h4>Active Cases: {{ filteredCountryConfirmedCases.Active }}</h4>
+      <h4>Deaths: {{ filteredCountryConfirmedCases.Deaths }}</h4>
+      <h4>Total Recoveries: {{ filteredCountryConfirmedCases.Recovered }}</h4>
+    </div>
+  </div>
+  <ng-template #noInfo> </ng-template>
+</div>
