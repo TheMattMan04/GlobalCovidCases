@@ -14,15 +14,15 @@ export class CasesService {
   constructor(private http: HttpClient) {}
 
   public getConfirmedCases(country: string): Observable<Cases[]> {
-    return this.http.get<Cases[]>(this.url + `/total/country/${country}`);
+    return this.http.get<Cases[]>(this.url + `total/dayone/country/${country}`);
   }
 
   public getRecoveredCases(country: string): Observable<Cases[]> {
-    return this.http.get<Cases[]>(this.url + `/country/${country}/status/recovered/live`);
+    return this.http.get<Cases[]>(this.url + `country/${country}/status/recovered/live`);
   }
 
   public getDeaths(country: string): Observable<Cases[]> {
-    return this.http.get<Cases[]>(this.url + `/country/${country}/status/recovered/live`);
+    return this.http.get<Cases[]>(this.url + `country/${country}/status/recovered/live`);
   }
 
 }

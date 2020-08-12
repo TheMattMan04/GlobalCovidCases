@@ -24,6 +24,7 @@ export class CountriesComponent implements OnInit {
   filteredCountryConfirmedCases: Cases;
   filteredCountryRecoveredCases: Cases;
   filteredCountryDeaths: Cases;
+  isCompleted = false;
 
   constructor(
     private countriesService: CountriesService,
@@ -34,23 +35,27 @@ export class CountriesComponent implements OnInit {
     this.countrySubscription = this.countriesService
       .getCountries()
       .subscribe((countries) => {
-        this.countries = countries;
-        this.countries.forEach((c) => {
-          this.countries.sort((a, b) => (a.Country < b.Country ? -1 : 1));
+        countries.forEach(async (country) => {
+
+          this.casesSubscription = this.casesService.getConfirmedCases(country.Slug).subscribe(cases => {
+            if (cases === undefined || cases.length == 0) {
+              countries.splice(countries.indexOf(country), 1);
+              this.countries = countries;
+              this.countries.forEach((c) => {
+                this.countries.sort((a, b) => (a.Country < b.Country ? -1 : 1));
+              });
+            }
+            this.filteredOptions = this.myControl.valueChanges.pipe(
+              startWith(''),
+              map((value) => this._filter(value))
+            );
+          });
         });
-        this.filteredOptions = this.myControl.valueChanges.pipe(
-          startWith(''),
-          map((value) => this._filter(value))
-        );
+      }, (err) => {
+        console.log(err);
+      }, () => {
+        this.isCompleted = true;
       });
-  }
-
-  onChange(event: Event) {
-   console.log(this.countryName);
-  }
-
-  onFocus(event: Event) {
-    console.log(this.countryName);
   }
 
   private _filter(value: string): Country[] {
@@ -61,8 +66,6 @@ export class CountriesComponent implements OnInit {
         this.filteredCountry = country;
       }
     });
-
-    console.log(this.filteredCountry);
 
     if (this.filteredCountry) {
       this.casesService
@@ -76,8 +79,6 @@ export class CountriesComponent implements OnInit {
             cases[cases.length - 1].Recovered,
             cases[cases.length - 1].Active
           );
-
-          console.log(this.filteredCountryConfirmedCases);
         });
     }
 
