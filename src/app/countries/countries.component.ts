@@ -32,30 +32,35 @@ export class CountriesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.countrySubscription = this.countriesService
-      .getCountries()
-      .subscribe((countries) => {
+    this.countrySubscription = this.countriesService.getCountries().subscribe(
+      (countries) => {
         countries.forEach(async (country) => {
-
-          this.casesSubscription = this.casesService.getConfirmedCases(country.Slug).subscribe(cases => {
-            if (cases === undefined || cases.length == 0) {
-              countries.splice(countries.indexOf(country), 1);
-              this.countries = countries;
-              this.countries.forEach((c) => {
-                this.countries.sort((a, b) => (a.Country < b.Country ? -1 : 1));
-              });
-            }
-            this.filteredOptions = this.myControl.valueChanges.pipe(
-              startWith(''),
-              map((value) => this._filter(value))
-            );
-          });
+          this.casesSubscription = this.casesService
+            .getConfirmedCases(country.Slug)
+            .subscribe((cases) => {
+              if (cases === undefined || cases.length == 0) {
+                countries.splice(countries.indexOf(country), 1);
+                this.countries = countries;
+                this.countries.forEach((c) => {
+                  this.countries.sort((a, b) =>
+                    a.Country < b.Country ? -1 : 1
+                  );
+                });
+              }
+              this.filteredOptions = this.myControl.valueChanges.pipe(
+                startWith(''),
+                map((value) => this._filter(value))
+              );
+            });
         });
-      }, (err) => {
+      },
+      (err) => {
         console.log(err);
-      }, () => {
+      },
+      () => {
         this.isCompleted = true;
-      });
+      }
+    );
   }
 
   private _filter(value: string): Country[] {
