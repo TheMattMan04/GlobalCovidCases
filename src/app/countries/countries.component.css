@@ -25,3 +25,8 @@ h2 {
 h3, h4 {
   text-align: center;
 }
+
+#globeImage {
+  display: block;
+  margin: 0 auto;
+}
