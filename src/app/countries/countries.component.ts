@@ -34,7 +34,7 @@ export class CountriesComponent implements OnInit {
   ngOnInit() {
     this.countrySubscription = this.countriesService.getCountries().subscribe(
       (countries) => {
-        countries.forEach(async (country) => {
+        countries.forEach((country) => {
           this.casesSubscription = this.casesService
             .getConfirmedCases(country.Slug)
             .subscribe((cases) => {
