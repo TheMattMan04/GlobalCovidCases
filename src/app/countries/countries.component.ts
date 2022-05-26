@@ -76,6 +76,8 @@ export class CountriesComponent implements OnInit {
       this.casesService
         .getConfirmedCases(this.filteredCountry.Slug)
         .subscribe((cases) => {
+          console.log(cases);
+
           this.filteredCountryConfirmedCases = new Cases(
             cases[cases.length - 1].Country,
             cases[cases.length - 1].CountryCode,

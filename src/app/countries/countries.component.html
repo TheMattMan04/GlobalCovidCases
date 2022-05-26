@@ -27,7 +27,7 @@
             [value]="option.Country"
           >
             <img
-              src="https://www.countryflags.io/{{ option.ISO2 }}/shiny/32.png"
+              src="https://flagcdn.com/28x21/{{option.ISO2.toLowerCase()}}.png"
             />{{ " " + option.Country }}
           </mat-option>
         </mat-autocomplete>
@@ -38,9 +38,7 @@
     <div class="card-title">
       <h3>
         <img
-          src="https://www.countryflags.io/{{
-            filteredCountry.ISO2
-          }}/shiny/32.png"
+           src="https://flagcdn.com/32x24/{{filteredCountry.ISO2.toLowerCase()}}.png"
         />{{ " " + filteredCountry.Country }}
       </h3>
     </div>
